@@ -1,29 +1,25 @@
-from typing import List
-import heapq
-
 class Solution:
     def maxPoints(self, grid: List[List[int]], queries: List[int]) -> List[int]:
-        rows, cols = len(grid), len(grid[0])
-        sorted_queries = sorted(enumerate(queries), key=lambda x: x[1])  # Sort queries
+        m, n = len(grid), len(grid[0])
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        visited = [[False] * n for _ in range(m)]
+        min_heap = [(grid[0][0], 0, 0)]
+        visited[0][0] = True
+        points = 0
+        
+        # Sort queries and keep track of original indices
+        sorted_queries = sorted((q, i) for i, q in enumerate(queries))
         result = [0] * len(queries)
         
-        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Up, Down, Left, Right
-        min_heap = [(grid[0][0], 0, 0)]  # Min-Heap (value, row, col)
-        visited = set()
-        visited.add((0, 0))
-        count = 0
-
-        for idx, value in sorted_queries:
-            while min_heap and min_heap[0][0] < value:
-                _, r, c = heapq.heappop(min_heap)
-                count += 1  # Increase point count
-
-                for dr, dc in directions:
-                    nr, nc = r + dr, c + dc
-                    if 0 <= nr < rows and 0 <= nc < cols and (nr, nc) not in visited:
-                        heapq.heappush(min_heap, (grid[nr][nc], nr, nc))
-                        visited.add((nr, nc))
-            
-            result[idx] = count  # Store result
-
+        for query, original_index in sorted_queries:
+            while min_heap and min_heap[0][0] < query:
+                _, x, y = heapq.heappop(min_heap)
+                points += 1
+                for dx, dy in directions:
+                    nx, ny = x + dx, y + dy
+                    if 0 <= nx < m and 0 <= ny < n and not visited[nx][ny]:
+                        visited[nx][ny] = True
+                        heapq.heappush(min_heap, (grid[nx][ny], nx, ny))
+            result[original_index] = points
+        
         return result
