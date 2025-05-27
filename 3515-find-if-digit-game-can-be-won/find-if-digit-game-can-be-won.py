@@ -3,8 +3,8 @@ class Solution:
         single=0
         double=0
         for i in nums:
-            if len(str(i))==1:
+            if i<10:
                 single+=i
-            if len(str(i))==2:
+            else:
                 double+=i
-        return single!=double            
+        return single!=double                       
