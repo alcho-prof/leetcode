@@ -4,8 +4,10 @@ class Solution:
             return ""
         a=strs[0]
         for i in strs[1:]:
-            while not i.startswith(a):
-                a=a[:-1]
-                if not a:
-                    return ""
-        return a                
+            j=0
+            while j<len(a) and j<len(i) and a[j]==i[j]:
+                j+=1
+            a=a[:j]
+            if not a:
+                return ""
+        return a            
