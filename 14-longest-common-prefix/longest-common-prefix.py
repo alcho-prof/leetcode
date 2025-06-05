@@ -3,9 +3,9 @@ class Solution:
         if not strs:
             return ""
         a=strs[0]
-        for s in strs[1:]:
-            while not s.startswith(a):
+        for i in strs[1:]:
+            while not i.startswith(a):
                 a=a[:-1]
                 if not a:
                     return ""
-        return a            
+        return a                
