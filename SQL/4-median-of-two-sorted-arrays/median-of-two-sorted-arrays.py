@@ -6,4 +6,4 @@ class Solution:
             return (nums[len(nums)//2] + nums[len(nums)//2-1])/2.0
         else:
             return nums[len(nums)//2]
-        
+# normal approach
